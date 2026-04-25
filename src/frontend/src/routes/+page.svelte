@@ -559,6 +559,6 @@
 
   <div class="footer">
     Gerado pelo <a href="https://github.com/TheOnlyWayUp/WattpadDownloader" target="_blank">WattpadDownloader</a>
-    &nbsp;·&nbsp; API em <a href="/docs" target="_blank">/docs</a>
+    &nbsp;·&nbsp; API em: <a href="/docs" target="_blank">/docs</a>
   </div>
 </div>
