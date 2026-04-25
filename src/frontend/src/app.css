@@ -1,4 +1,37 @@
-@import 'tailwindcss';
-@plugin "daisyui" {
-    themes: bumblebee --default, abyss --prefersdark, cupcake, dracula;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f5f3ee;
+  --bg-card:   #ffffff;
+  --bg-input:  #f9f8f5;
+  --border:    #e8e3da;
+  --border-md: #d4cdc0;
+  --text:      #1a1916;
+  --muted:     #7a7670;
+  --hint:      #b0aa9f;
+  --accent:    #1a1916;
+  --green:     #1e6641;
+  --red:       #c0392b;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #141310;
+    --bg-card:   #1e1c18;
+    --bg-input:  #252219;
+    --border:    #2e2b24;
+    --border-md: #3a352b;
+    --text:      #f0ece5;
+    --muted:     #96918a;
+    --hint:      #5a5650;
+    --accent:    #f0ece5;
+    --green:     #2d9460;
+    --red:       #e05c4d;
+  }
+}
+
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
