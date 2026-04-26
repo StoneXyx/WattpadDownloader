@@ -1,16 +1,13 @@
 <script>
-  let url = '';
-  let loading = false;
-  let error = '';
-  let book = null;
-  let downloaded = false;
+  let url = $state('');
+  let loading = $state(false);
+  let error = $state('');
+  let book = $state(null);
+  let downloaded = $state(false);
 
-  // Extract story ID from Wattpad URL
   function extractStoryId(input) {
     input = input.trim();
-    // Direct ID
     if (/^\d+$/.test(input)) return input;
-    // URL formats: /story/12345678 or /myusername/storytitle-12345678
     const match = input.match(/\/(\d{6,})/);
     return match ? match[1] : null;
   }
@@ -19,22 +16,18 @@
     error = '';
     book = null;
     downloaded = false;
-
     const storyId = extractStoryId(url);
     if (!storyId) {
       error = 'URL inválida. Cole um link do Wattpad.';
       return;
     }
-
     loading = true;
     try {
-      // Wattpad public API
       const res = await fetch(
         `https://www.wattpad.com/api/v3/stories/${storyId}?fields=id,title,cover,user(name),description,mainCategory,numParts,reads,votes,language`
       );
       if (!res.ok) throw new Error('Livro não encontrado.');
-      const data = await res.json();
-      book = data;
+      book = await res.json();
     } catch (e) {
       error = e.message || 'Erro ao buscar informações do livro.';
     } finally {
@@ -100,11 +93,7 @@
     background: #f7f4ef;
   }
 
-  /* Header */
-  .header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
+  .header { text-align: center; margin-bottom: 48px; }
 
   .logo-mark {
     display: inline-flex;
@@ -123,11 +112,7 @@
     justify-content: center;
   }
 
-  .logo-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: #f7f4ef;
-  }
+  .logo-icon svg { width: 20px; height: 20px; fill: #f7f4ef; }
 
   .logo-text {
     font-family: 'Lora', serif;
@@ -137,14 +122,8 @@
     letter-spacing: -0.3px;
   }
 
-  .tagline {
-    font-size: 14px;
-    color: #888;
-    font-weight: 300;
-    letter-spacing: 0.3px;
-  }
+  .tagline { font-size: 14px; color: #888; font-weight: 300; letter-spacing: 0.3px; }
 
-  /* Search card */
   .search-card {
     background: #fff;
     border-radius: 16px;
@@ -165,10 +144,7 @@
     margin-bottom: 10px;
   }
 
-  .input-row {
-    display: flex;
-    gap: 10px;
-  }
+  .input-row { display: flex; gap: 10px; }
 
   .url-input {
     flex: 1;
@@ -183,14 +159,8 @@
     transition: border-color 0.15s;
   }
 
-  .url-input:focus {
-    border-color: #1a1a1a;
-    background: #fff;
-  }
-
-  .url-input::placeholder {
-    color: #bbb;
-  }
+  .url-input:focus { border-color: #1a1a1a; background: #fff; }
+  .url-input::placeholder { color: #bbb; }
 
   .btn-search {
     background: #1a1a1a;
@@ -204,22 +174,15 @@
     cursor: pointer;
     transition: opacity 0.15s, transform 0.1s;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  .btn-search:hover:not(:disabled) {
-    opacity: 0.85;
-  }
+  .btn-search:hover:not(:disabled) { opacity: 0.85; }
+  .btn-search:active:not(:disabled) { transform: scale(0.98); }
+  .btn-search:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .btn-search:active:not(:disabled) {
-    transform: scale(0.98);
-  }
-
-  .btn-search:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  /* Error */
   .error-msg {
     margin-top: 14px;
     font-size: 13px;
@@ -229,7 +192,6 @@
     gap: 6px;
   }
 
-  /* Book card */
   .book-card {
     background: #fff;
     border-radius: 16px;
@@ -247,17 +209,8 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .book-inner {
-    display: flex;
-    gap: 24px;
-    padding: 28px;
-  }
-
-  .cover-wrap {
-    flex-shrink: 0;
-    width: 100px;
-    position: relative;
-  }
+  .book-inner { display: flex; gap: 24px; padding: 28px; }
+  .cover-wrap { flex-shrink: 0; width: 100px; }
 
   .cover-img {
     width: 100px;
@@ -278,18 +231,9 @@
     justify-content: center;
   }
 
-  .cover-placeholder svg {
-    width: 32px;
-    height: 32px;
-    fill: #bbb;
-  }
+  .cover-placeholder svg { width: 32px; height: 32px; fill: #bbb; }
 
-  .book-info {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
+  .book-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 
   .book-category {
     font-size: 11px;
@@ -310,15 +254,8 @@
     word-break: break-word;
   }
 
-  .book-author {
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 14px;
-  }
-
-  .book-author span {
-    color: #555;
-  }
+  .book-author { font-size: 13px; color: #888; margin-bottom: 14px; }
+  .book-author span { color: #555; }
 
   .book-desc {
     font-size: 13px;
@@ -332,30 +269,11 @@
     flex: 1;
   }
 
-  .book-stats {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 0;
-  }
+  .book-stats { display: flex; gap: 16px; }
+  .stat { display: flex; flex-direction: column; align-items: flex-start; }
+  .stat-val { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+  .stat-lbl { font-size: 11px; color: #aaa; }
 
-  .stat {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .stat-val {
-    font-size: 14px;
-    font-weight: 500;
-    color: #1a1a1a;
-  }
-
-  .stat-lbl {
-    font-size: 11px;
-    color: #aaa;
-  }
-
-  /* Download bar */
   .dl-bar {
     border-top: 1px solid #f0ece5;
     padding: 20px 28px;
@@ -363,16 +281,6 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-  }
-
-  .dl-info {
-    font-size: 13px;
-    color: #888;
-  }
-
-  .dl-info strong {
-    color: #1a1a1a;
-    font-weight: 500;
   }
 
   .btn-dl {
@@ -385,7 +293,7 @@
     font-weight: 500;
     font-family: 'DM Sans', sans-serif;
     cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
+    transition: opacity 0.15s, transform 0.1s, background 0.2s;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -395,10 +303,7 @@
   .btn-dl:hover:not(:disabled) { opacity: 0.85; }
   .btn-dl:active:not(:disabled) { transform: scale(0.98); }
   .btn-dl:disabled { opacity: 0.45; cursor: not-allowed; }
-
-  .btn-dl.success {
-    background: #2d7a4f;
-  }
+  .btn-dl.success { background: #2d7a4f; }
 
   .btn-reset {
     background: transparent;
@@ -412,12 +317,8 @@
     transition: border-color 0.15s, color 0.15s;
   }
 
-  .btn-reset:hover {
-    border-color: #1a1a1a;
-    color: #1a1a1a;
-  }
+  .btn-reset:hover { border-color: #1a1a1a; color: #1a1a1a; }
 
-  /* Spinner */
   .spinner {
     width: 16px;
     height: 16px;
@@ -425,23 +326,13 @@
     border-top-color: #fff;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Footer */
-  .footer {
-    margin-top: 48px;
-    font-size: 12px;
-    color: #bbb;
-    text-align: center;
-  }
-
-  .footer a {
-    color: #bbb;
-    text-decoration: none;
-  }
-
+  .footer { margin-top: 48px; font-size: 12px; color: #bbb; text-align: center; }
+  .footer a { color: #bbb; text-decoration: none; }
   .footer a:hover { color: #888; }
 
   @media (max-width: 480px) {
@@ -453,7 +344,6 @@
 </style>
 
 <div class="page">
-  <!-- Header -->
   <div class="header">
     <div class="logo-mark">
       <div class="logo-icon">
@@ -466,7 +356,6 @@
     <div class="tagline">Cole o link de qualquer livro do Wattpad e baixe como EPUB</div>
   </div>
 
-  <!-- Search -->
   <div class="search-card">
     <label class="search-label" for="url-input">Link do livro</label>
     <div class="input-row">
@@ -475,13 +364,18 @@
         class="url-input"
         type="text"
         bind:value={url}
-        on:keydown={handleKey}
+        onkeydown={handleKey}
         placeholder="https://www.wattpad.com/story/..."
         disabled={loading}
       />
-      <button class="btn-search" on:click={fetchBookInfo} disabled={loading || !url.trim()}>
+      <button
+        class="btn-search"
+        onclick={fetchBookInfo}
+        disabled={loading || !url.trim()}
+      >
         {#if loading && !book}
           <span class="spinner"></span>
+          Buscando
         {:else}
           Buscar
         {/if}
@@ -491,14 +385,15 @@
     {#if error}
       <div class="error-msg">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
         {error}
       </div>
     {/if}
   </div>
 
-  <!-- Book preview -->
   {#if book}
     <div class="book-card">
       <div class="book-inner">
@@ -507,7 +402,9 @@
             <img class="cover-img" src={book.cover} alt="Capa de {book.title}" />
           {:else}
             <div class="cover-placeholder">
-              <svg viewBox="0 0 24 24"><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+              <svg viewBox="0 0 24 24">
+                <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+              </svg>
             </div>
           {/if}
         </div>
@@ -538,10 +435,10 @@
       </div>
 
       <div class="dl-bar">
-        <button class="btn-reset" on:click={reset}>Trocar livro</button>
+        <button class="btn-reset" onclick={reset}>Trocar livro</button>
         <button
           class="btn-dl {downloaded ? 'success' : ''}"
-          on:click={downloadBook}
+          onclick={downloadBook}
           disabled={loading}
         >
           {#if loading}
@@ -558,7 +455,7 @@
   {/if}
 
   <div class="footer">
-    Gerado pelo <a href="https://github.com/TheOnlyWayUp/WattpadDownloader" target="_blank">WattpadDownloader</a>
-    &nbsp;·&nbsp; API em: <a href="/docs" target="_blank">/docs</a>
+    by <a href="https://github.com/Sylva-jpp" target="_blank">Sylva.jpp</a>
+    &nbsp;·&nbsp; API em <a href="/docs" target="_blank">/docs</a>
   </div>
 </div>
